@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Challenge Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7ff;color:#172033;line-height:1.5}
+header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:22px;font-weight:800}.logo span{color:#fbbf24}
+nav a{color:white;text-decoration:none;margin-left:20px;font-weight:600}
+.hero{padding:70px 7%;background:linear-gradient(135deg,#eef2ff,#faf5ff);display:flex;align-items:center;justify-content:space-between;gap:40px}
+.hero-text{max-width:650px}.badge{display:inline-block;background:#e0e7ff;color:#4338ca;padding:7px 12px;border-radius:20px;font-weight:700;margin-bottom:15px}
+h1{font-size:clamp(38px,6vw,64px);line-height:1.05;margin-bottom:18px}
+.hero p{font-size:18px;color:#4b5563;margin-bottom:25px}
+.btn{border:0;background:#4f46e5;color:white;padding:13px 20px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer}
+.btn:hover{background:#4338ca}
+.hero-card{background:white;padding:28px;border-radius:22px;box-shadow:0 15px 45px #4f46e522;min-width:270px}
+.hero-card .big{font-size:55px;text-align:center}.hero-card h3{text-align:center;margin:8px}
+section{padding:55px 7%}.section-title{text-align:center;font-size:32px;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:white;border-radius:18px;padding:22px;box-shadow:0 8px 25px #17203312}
+.card h3{margin:10px 0}.card p{color:#667085;margin-bottom:15px}
+.icon{font-size:35px}.tag{display:inline-block;padding:5px 9px;background:#eef2ff;color:#4338ca;border-radius:8px;font-size:12px;font-weight:bold}
+.progress{height:10px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin:12px 0}.progress div{height:100%;background:#4f46e5}
+.challenge{display:flex;flex-direction:column}.challenge .btn{margin-top:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}
+.stat{text-align:center;background:#f8fafc;border-radius:14px;padding:15px}.stat b{display:block;font-size:25px;color:#4f46e5}
+#quiz{display:none;max-width:700px;margin:0 auto}.question{font-size:21px;font-weight:700;margin:15px 0}
+.option{width:100%;text-align:left;background:#f8fafc;border:2px solid #e5e7eb;padding:12px;border-radius:10px;margin:7px 0;cursor:pointer;font-size:15px}.option:hover{border-color:#6366f1}
+#result{margin-top:15px;font-weight:bold}
+footer{text-align:center;background:#111827;color:#d1d5db;padding:25px}
+@media(max-width:700px){header{padding:15px 5%}nav a{margin-left:8px;font-size:13px}.hero{padding:45px 5%;flex-direction:column;align-items:flex-start}section{padding:40px 5%}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Student<span>Challenge</span> 🚀</div>
+  <nav><a href="#challenges">Challenges</a><a href="#progress">Progress</a><a href="#quiz-area">Quiz</a></nav>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-text">
+    <span class="badge">🏆 Learn • Compete • Grow</span>
+    <h1>Turn Your Skills Into a Challenge.</h1>
+    <p>Students ke liye fun challenges complete karo, points earn karo aur apni progress track karo.</p>
+    <button class="btn" onclick="document.getElementById('challenges').scrollIntoView({behavior:'smooth'})">Start Challenge</button>
+  </div>
+  <div class="hero-card">
+    <div class="big">🏅</div>
+    <h3>Challenge Streak</h3>
+    <p style="text-align:center;color:#667085">Keep learning every day!</p>
+    <div class="stats">
+      <div class="stat"><b id="points">120</b>Points</div>
+      <div class="stat"><b id="done">2</b>Done</div>
+      <div class="stat"><b id="streak">3</b>Days</div>
+    </div>
+  </div>
+</section>
+
+<section id="challenges">
+  <h2 class="section-title">🔥 Today's Challenges</h2>
+  <div class="grid">
+    <div class="card challenge">
+      <div class="icon">💻</div><span class="tag">Coding</span>
+      <h3>HTML Starter</h3><p>Ek simple personal profile page banao.</p>
+      <div class="progress"><div style="width:35%"></div></div>
+      <button class="btn" onclick="completeChallenge(this)">Complete +50</button>
+    </div>
+    <div class="card challenge">
+      <div class="icon">🧠</div><span class="tag">Knowledge</span>
+      <h3>Brain Quiz</h3><p>5 quick questions solve karke score dekho.</p>
+      <div class="progress"><div style="width:55%"></div></div>
+      <button class="btn" onclick="document.getElementById('quiz-area').scrollIntoView({behavior:'smooth'})">Take Quiz</button>
+    </div>
+    <div class="card challenge">
+      <div class="icon">🎯</div><span class="tag">Daily</span>
+      <h3>Daily 5 Questions</h3><p>Kisi bhi subject ka quick quiz complete karo.</p>
+      <div class="progress"><div style="width:20%"></div></div>
+      <button class="btn" onclick="document.getElementById('quiz-area').scrollIntoView({behavior:'smooth'})">Start Quiz</button>
+    </div>
+    <div class="card challenge">
+      <div class="icon">📚</div><span class="tag">Study</span>
+      <h3>30-Min Focus</h3><p>30 minutes distraction-free study complete karo.</p>
+      <div class="progress"><div id="focusBar" style="width:0%"></div></div>
+      <button class="btn" onclick="startFocus()">Start Timer</button>
+    </div>
+  </div>
+</section>
+
+<section id="progress">
+  <h2 class="section-title">📊 Your Progress</h2>
+  <div class="card">
+    <h3>Weekly Goal</h3><p>4 of 7 challenges completed</p>
+    <div class="progress"><div style="width:57%"></div></div>
+    <p><b>Keep going!</b> You are building a great learning habit.</p>
+  </div>
+</section>
+
+<section id="quiz-area">
+  <h2 class="section-title">🧠 All Subjects Quiz</h2>
+  <div class="grid" style="margin-bottom:22px">
+    <button class="card" onclick="setSubject('Science')" style="cursor:pointer;border:0;text-align:left">🔬 <b>Science</b><br><small>Physics, Chemistry, Biology</small></button>
+    <button class="card" onclick="setSubject('Maths')" style="cursor:pointer;border:0;text-align:left">➗ <b>Mathematics</b><br><small>Numbers, algebra, geometry</small></button>
+    <button class="card" onclick="setSubject('English')" style="cursor:pointer;border:0;text-align:left">📖 <b>English</b><br><small>Grammar and vocabulary</small></button>
+    <button class="card" onclick="setSubject('GK')" style="cursor:pointer;border:0;text-align:left">🌍 <b>General Knowledge</b><br><small>India, world and facts</small></button>
+    <button class="card" onclick="setSubject('Computer')" style="cursor:pointer;border:0;text-align:left">💻 <b>Computer</b><br><small>HTML, coding and basics</small></button>
+    <button class="card" onclick="setSubject('Social Science')" style="cursor:pointer;border:0;text-align:left">🏛️ <b>Social Science</b><br><small>History, Geography, Civics</small></button>
+  </div>
+  <div class="card" id="quiz">
+    <div id="qCount"></div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <div id="result"></div>
+    <button class="btn" id="nextBtn" style="display:none;margin-top:10px" onclick="nextQuestion()">Next</button>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 Student Challenge Hub • Made for learners 🚀</footer>
+
+<script>
+let points=120, done=2, streak=3;
+
+function completeChallenge(btn){
+  if(btn.dataset.done) return;
+  btn.dataset.done="1";
+  btn.textContent="✓ Completed";
+  points+=50; done++;
+  document.getElementById("points").textContent=points;
+  document.getElementById("done").textContent=done;
+  alert("Challenge completed! 🎉 +50 points");
+}
+
+let timer=null, seconds=0;
+function startFocus(){
+  if(timer){alert("Focus timer already running!");return}
+  seconds=0;
+  timer=setInterval(()=>{
+    seconds++;
+    document.getElementById("focusBar").style.width=Math.min(seconds/1800*100,100)+"%";
+    if(seconds>=1800){
+      clearInterval(timer); timer=null;
+      points+=50;
+      document.getElementById("points").textContent=points;
+      alert("30-minute focus challenge completed! 🎉 +50 points");
+    }
+  },1000);
+  alert("Focus timer started! Study for 30 minutes. 📚");
+}
+
+const questionSets={
+Science:[
+{q:"पौधों में भोजन बनाने की प्रक्रिया क्या कहलाती है?",o:["प्रकाश संश्लेषण","श्वसन","पाचन","वाष्पीकरण"],a:0},
+{q:"पानी का रासायनिक सूत्र क्या है?",o:["CO₂","H₂O","O₂","NaCl"],a:1},
+{q:"बल की SI इकाई क्या है?",o:["जूल","वाट","न्यूटन","पास्कल"],a:2},
+{q:"मानव शरीर में रक्त पंप करने वाला अंग कौन सा है?",o:["फेफड़ा","हृदय","यकृत","गुर्दा"],a:1},
+{q:"सूर्य से पृथ्वी तक ऊर्जा मुख्यतः किस रूप में आती है?",o:["प्रकाश और ऊष्मा","ध्वनि","केवल विद्युत","केवल ध्वनि"],a:0}
+],
+Maths:[
+{q:"12 × 8 = ?",o:["86","96","108","112"],a:1},
+{q:"√81 = ?",o:["7","8","9","10"],a:2},
+{q:"एक त्रिभुज के कोणों का योग कितना होता है?",o:["90°","180°","270°","360°"],a:1},
+{q:"2x + 4 = 10 में x का मान क्या है?",o:["2","3","4","5"],a:1},
+{q:"25% of 200 = ?",o:["25","40","50","75"],a:2}
+],
+English:[
+{q:"Choose the correct plural of 'child'.",o:["Childs","Childes","Children","Childrens"],a:2},
+{q:"Which word is a verb?",o:["Beautiful","Run","Blue","Quickly"],a:1},
+{q:"Choose the correct sentence.",o:["She go to school.","She goes to school.","She going school.","She gone to school."],a:1},
+{q:"Opposite of 'ancient' is:",o:["Old","Modern","Past","Historic"],a:1},
+{q:"Which is a synonym of 'happy'?",o:["Sad","Angry","Joyful","Tired"],a:2}
+],
+GK:[
+{q:"भारत की राजधानी क्या है?",o:["मुंबई","नई दिल्ली","जयपुर","लखनऊ"],a:1},
+{q:"भारत का राष्ट्रीय पशु कौन सा है?",o:["सिंह","हाथी","बाघ","मोर"],a:2},
+{q:"विश्व का सबसे बड़ा महासागर कौन सा है?",o:["अटलांटिक","हिंद महासागर","प्रशांत","आर्कटिक"],a:2},
+{q:"भारत के राष्ट्रीय ध्वज को सामान्यतः किस नाम से जाना जाता है?",o:["तिरंगा","नीला ध्वज","अशोक ध्वज","जन ध्वज"],a:0},
+{q:"एक सप्ताह में कितने दिन होते हैं?",o:["5","6","7","8"],a:2}
+],
+Computer:[
+{q:"HTML का उपयोग मुख्यतः किसके लिए होता है?",o:["वेब पेज का structure","फोटो edit करना","वीडियो record करना","Antivirus बनाना"],a:0},
+{q:"CSS का उपयोग किसके लिए होता है?",o:["Website styling","Database backup","Operating system","Email भेजना"],a:0},
+{q:"JavaScript website में क्या जोड़ सकती है?",o:["Interactivity","केवल text","केवल images","केवल folders"],a:0},
+{q:"CPU का पूरा नाम क्या है?",o:["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing User"],a:0},
+{q:"Keyboard में Enter key का सामान्य उपयोग क्या है?",o:["नई line/command confirm करना","Screen बंद करना","Volume बढ़ाना","Computer charge करना"],a:0}
+],
+"Social Science":[
+{q:"भारत का संविधान कब अपनाया गया था?",o:["15 अगस्त 1947","26 नवंबर 1949","26 जनवरी 1950","2 अक्टूबर 1950"],a:1},
+{q:"पृथ्वी के चारों ओर गैसों की परत को क्या कहते हैं?",o:["जलमंडल","वायुमंडल","स्थलमंडल","जीवमंडल"],a:1},
+{q:"भारत में लोकतंत्र में नागरिक अपने प्रतिनिधियों को कैसे चुनते हैं?",o:["चुनाव द्वारा","लॉटरी द्वारा","नियुक्ति द्वारा","वंशानुक्रम द्वारा"],a:0},
+{q:"रेगिस्तान में वर्षा सामान्यतः कैसी होती है?",o:["बहुत अधिक","कम","हर दिन","केवल सर्दियों में"],a:1},
+{q:"इतिहास मुख्यतः किसका अध्ययन करता है?",o:["अतीत की घटनाओं का","केवल भविष्य का","केवल मौसम का","केवल गणित का"],a:0}
+]};
+
+// Unlimited quiz engine: questions are generated from a large rotating bank,
+// with no fixed end. It remembers played questions and keeps going.
+const extraQuestions={
+Science:[
+["पृथ्वी का प्राकृतिक उपग्रह कौन है?",["चंद्रमा","मंगल","शुक्र","सूर्य"],0],
+["ऑक्सीजन का रासायनिक प्रतीक क्या है?",["O","Ox","O₂","Og"],0],
+["पौधों में जल का परिवहन मुख्यतः किस ऊतक से होता है?",["जाइलम","फ्लोएम","एपिडर्मिस","कैंबियम"],0],
+["मानव शरीर में श्वसन के लिए मुख्य अंग कौन से हैं?",["फेफड़े","गुर्दे","हृदय","यकृत"],0],
+["ध्वनि किस माध्यम में यात्रा कर सकती है?",["केवल निर्वात में","ठोस, द्रव और गैस में","केवल ठोस में","केवल गैस में"],1],
+["विद्युत धारा की SI इकाई क्या है?",["वोल्ट","एम्पियर","ओम","वाट"],1],
+["जल का हिमांक सामान्य वायुदाब पर कितना होता है?",["0°C","10°C","32°C","100°C"],0],
+["मानव शरीर में हड्डियों का मुख्य कार्य क्या है?",["सहारा और सुरक्षा","केवल पाचन","केवल रक्त पंप करना","केवल श्वसन"],0]
+],
+Maths:[
+["15 × 7 = ?",["95","105","115","125"],1],
+["144 ÷ 12 = ?",["10","11","12","14"],2],
+["3² + 4² = ?",["12","20","25","49"],2],
+["एक वर्ग की भुजा 6 cm है। उसका क्षेत्रफल कितना है?",["12 cm²","24 cm²","36 cm²","42 cm²"],2],
+["0.5 को भिन्न में कैसे लिखेंगे?",["1/2","1/3","2/5","5/2"],0],
+["50 का 20% कितना है?",["5","10","15","20"],1],
+["5x = 35 में x क्या है?",["5","6","7","8"],2],
+["एक वृत्त के पूर्ण कोण का माप कितना होता है?",["90°","180°","270°","360°"],3]
+],
+English:[
+["Past tense of 'go' is:",["goed","gone","went","going"],2],
+["Choose the noun:",["Quickly","Honesty","Run","Beautiful"],1],
+["Which article fits: ___ apple?",["a","an","the","no article"],1],
+["Opposite of 'difficult' is:",["Easy","Hard","Heavy","Late"],0],
+["Plural of 'mouse' is:",["Mouses","Mice","Mousees","Mices"],1],
+["Choose the correct spelling:",["Beautiful","Beutiful","Beautifull","Butiful"],0],
+["Which word is an adjective?",["Carefully","Beauty","Bright","Run"],2],
+["Synonym of 'begin' is:",["End","Start","Stop","Close"],1]
+],
+GK:[
+["भारत का राष्ट्रीय फूल कौन सा है?",["कमल","गुलाब","गेंदा","चमेली"],0],
+["भारत का राष्ट्रीय पक्षी कौन सा है?",["तोता","मोर","कबूतर","हंस"],1],
+["सूर्य किस प्रकार का पिंड है?",["ग्रह","उपग्रह","तारा","धूमकेतु"],2],
+["एक वर्ष में सामान्यतः कितने महीने होते हैं?",["10","11","12","13"],2],
+["जयपुर किस राज्य की राजधानी है?",["गुजरात","राजस्थान","हरियाणा","पंजाब"],1],
+["विश्व पर्यावरण दिवस कब मनाया जाता है?",["5 जून","15 अगस्त","2 अक्टूबर","26 जनवरी"],0],
+["भारत का राष्ट्रीय खेल आधिकारिक रूप से क्या घोषित है?",["हॉकी","क्रिकेट","कोई आधिकारिक राष्ट्रीय खेल नहीं","फुटबॉल"],2],
+["पृथ्वी पर सबसे अधिक पाया जाने वाला महासागर कौन सा है?",["प्रशांत महासागर","अटलांटिक महासागर","हिंद महासागर","आर्कटिक महासागर"],0]
+],
+Computer:[
+["HTML में सबसे बड़ा heading tag कौन सा है?",["<h1>","<h6>","<head>","<title>"],0],
+["CSS में text का रंग बदलने के लिए कौन सी property है?",["font-size","color","background","display"],1],
+["JavaScript में variable घोषित करने के लिए कौन सा keyword इस्तेमाल किया जा सकता है?",["let","style","html","select"],0],
+["वेब पेज की संरचना के लिए मुख्यतः क्या उपयोग होता है?",["HTML","CSS","JavaScript","SQL"],0],
+["URL का पूरा नाम क्या है?",["Uniform Resource Locator","Universal Read Link","User Resource Line","Uniform Route Link"],0],
+["CSS में बाहरी spacing के लिए कौन सी property है?",["padding","margin","border","width"],1],
+["Computer में data की सबसे छोटी सामान्य इकाई क्या है?",["Byte","Bit","Kilobyte","Megabyte"],1],
+["JavaScript file की सामान्य extension क्या है?",[".css",".html",".js",".java"],2]
+],
+"Social Science":[
+["भारत का स्वतंत्रता दिवस कब मनाया जाता है?",["15 अगस्त","26 जनवरी","2 अक्टूबर","14 नवंबर"],0],
+["भारत का गणतंत्र दिवस कब मनाया जाता है?",["15 अगस्त","26 जनवरी","26 नवंबर","5 सितंबर"],1],
+["पृथ्वी का सबसे बड़ा महाद्वीप कौन सा है?",["एशिया","अफ्रीका","यूरोप","ऑस्ट्रेलिया"],0],
+["मानचित्र पर दिशाएँ बताने के लिए सामान्यतः किसका उपयोग होता है?",["दिशा-सूचक","थर्मामीटर","घड़ी","तराजू"],0],
+["लोकसभा के सदस्य किस प्रक्रिया से चुने जाते हैं?",["निर्वाचन","नियुक्ति","वंशानुक्रम","लॉटरी"],0],
+["भारत का संविधान किस प्रकार का सर्वोच्च कानून है?",["देश का सर्वोच्च कानून","केवल स्थानीय नियम","केवल विद्यालय नियम","केवल न्यायालय आदेश"],0],
+["किस परत में हम रहते हैं?",["स्थलमंडल","जलमंडल","वायुमंडल","जीवमंडल"],0],
+["रेखांश और अक्षांश का उपयोग किसके लिए होता है?",["स्थान निर्धारित करने के लिए","समय रोकने के लिए","वर्षा बनाने के लिए","ऊंचाई मापने के लिए"],0]
+]};
+
+Object.keys(extraQuestions).forEach(s=>{
+  extraQuestions[s].forEach(x=>questionSets[s].push({q:x[0],o:x[1],a:x[2]}));
+});
+
+// Add hundreds of generated, mathematically/factually safe quiz items.
+for(let n=1;n<=120;n++){
+  const a=n+2,b=(n%9)+2;
+  questionSets.Maths.push({q:`${a} + ${b} = ?`,o:[String(a+b-1),String(a+b),String(a+b+1),String(a+b+2)],a:1});
+  questionSets.Maths.push({q:`${a} × ${b} = ?`,o:[String(a*b-1),String(a*b),String(a*b+1),String(a*b+2)],a:1});
+}
+for(let n=1;n<=100;n++){
+  questionSets.GK.push({q:`गिनती में ${n} के बाद कौन सा अंक आता है?`,o:[String(n),String(n+1),String(n+2),String(n+3)],a:1});
+}
+
+let subject="Science", questions=[], qi=0, score=0, quizSession=0;
+const usedBySubject={};
+
+function buildUnlimitedQuiz(s){
+  const bank=questionSets[s].slice();
+  usedBySubject[s] ||= new Set();
+  // Shuffle without repeating until the complete bank has been used.
+  if(usedBySubject[s].size>=bank.length) usedBySubject[s].clear();
+  const available=bank.map((_,i)=>i).filter(i=>!usedBySubject[s].has(i));
+  for(let i=available.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[available[i],available[j]]=[available[j],available[i]];}
+  questions=available.map(i=>{usedBySubject[s].add(i);return bank[i];});
+  qi=0; score=0; quizSession++;
+}
+
+function setSubject(s){
+  subject=s;
+  buildUnlimitedQuiz(s);
+  document.getElementById("quiz").style.display="block";
+  document.getElementById("quiz").scrollIntoView({behavior:"smooth",block:"center"});
+  loadQuiz();
+}
+
+function loadQuiz(){
+  document.getElementById("qCount").textContent=`${subject} • Question ${qi+1} • Unlimited Quiz`;
+  document.getElementById("question").textContent=questions[qi].q;
+  document.getElementById("result").textContent="";
+  document.getElementById("nextBtn").style.display="none";
+  const box=document.getElementById("options"); box.innerHTML="";
+  questions[qi].o.forEach((x,i)=>{
+    const b=document.createElement("button");
+    b.className="option"; b.textContent=x;
+    b.onclick=()=>answer(i,b); box.appendChild(b);
+  });
+}
+
+function answer(i,b){
+  document.querySelectorAll(".option").forEach(x=>x.disabled=true);
+  if(i===questions[qi].a){
+    score++; b.style.borderColor="#16a34a";
+    document.getElementById("result").textContent="✅ सही जवाब!";
+    points+=5;
+  }else{
+    b.style.borderColor="#dc2626";
+    document.getElementById("result").textContent="❌ गलत जवाब।";
+  }
+  document.getElementById("points").textContent=points;
+  document.getElementById("nextBtn").style.display="inline-block";
+}
+
+function nextQuestion(){
+  qi++;
+  if(qi<questions.length){loadQuiz();}
+  else{
+    // Never ends: refill with a fresh randomized round automatically.
+    document.getElementById("quiz").innerHTML=
+      `<h3>🎉 Round Complete!</h3>
+       <p style="margin:10px 0">Score: <b>${score}/${questions.length}</b></p>
+       <p style="margin-bottom:15px">Unlimited Quiz जारी रखें — अगला round नई questions के साथ।</p>
+       <button class="btn" onclick="continueUnlimited()">Continue Quiz</button>`;
+  }
+}
+
+function continueUnlimited(){
+  document.getElementById("quiz").innerHTML=
+    `<div id="qCount"></div><div class="question" id="question"></div>
+     <div id="options"></div><div id="result"></div>
+     <button class="btn" id="nextBtn" style="display:none;margin-top:10px" onclick="nextQuestion()">Next</button>`;
+  buildUnlimitedQuiz(subject); loadQuiz();
+}
+
+buildUnlimitedQuiz(subject);
+loadQuiz();
+</script>
+</body>
+</html>
